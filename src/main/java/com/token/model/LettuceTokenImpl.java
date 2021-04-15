@@ -1,10 +1,9 @@
-package com.rmc.token.model;
+package com.token.model;
 
 import com.google.gson.Gson;
-import com.rmc.token.interfaces.LabelToken;
+import com.token.interfaces.LabelToken;
+import com.token.constant.Constant;
 import io.lettuce.core.api.async.RedisAsyncCommands;
-
-import static com.rmc.token.constant.Constant.LABEL_TOKEN_PREFIX;
 
 
 public class LettuceTokenImpl extends TokenModel implements LabelToken {
@@ -17,7 +16,6 @@ public class LettuceTokenImpl extends TokenModel implements LabelToken {
 
     public LettuceTokenImpl() {
         this.labelId = 0;
-        this.albumId = 0;
     }
 
     @Override
@@ -26,35 +24,8 @@ public class LettuceTokenImpl extends TokenModel implements LabelToken {
     }
 
     @Override
-    public LabelToken setAlbumId(int albumId) {
-        this.albumId = albumId;
+    public LabelToken setYourData(String data) {
         return this;
-    }
-
-    @Override
-    public LabelToken setAlbumToken(String data) {
-        this.albumToken = data;
-        return this;
-    }
-
-    @Override
-    public String getMusicBoxData() {
-        return musicBoxData;
-    }
-
-    @Override
-    public String getAnalysisData() {
-        return analysisData;
-    }
-
-    @Override
-    public String getAlbumToken() {
-        return albumToken;
-    }
-
-    @Override
-    public int getAlbumId() {
-        return this.albumId;
     }
 
     @Override
@@ -68,22 +39,10 @@ public class LettuceTokenImpl extends TokenModel implements LabelToken {
     }
 
     @Override
-    public LabelToken setMusicBoxData(String data) {
-        this.musicBoxData = data;
-        return this;
-    }
-
-    @Override
-    public LabelToken setAnalysisData(String data) {
-        this.analysisData = data;
-        return this;
-    }
-
-    @Override
     public boolean save() {
         if (redisCommand == null || this.labelId == 0 || gson == null)
             return false;
-        redisCommand.set(LABEL_TOKEN_PREFIX + token, gson.toJson(this));
+        redisCommand.set(Constant.LABEL_TOKEN_PREFIX + token, gson.toJson(this));
         return true;
     }
 
@@ -91,7 +50,7 @@ public class LettuceTokenImpl extends TokenModel implements LabelToken {
     public boolean extend() {
         if (redisCommand == null || this.labelId == 0 || gson == null)
             return false;
-        redisCommand.expire(LABEL_TOKEN_PREFIX + token, lifeCycle);
+        redisCommand.expire(Constant.LABEL_TOKEN_PREFIX + token, lifeCycle);
         return true;
     }
 

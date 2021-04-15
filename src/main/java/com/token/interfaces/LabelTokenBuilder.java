@@ -1,4 +1,4 @@
-package com.rmc.token.interfaces;
+package com.token.interfaces;
 
 public interface LabelTokenBuilder {
     void setLabelId(int labelId);

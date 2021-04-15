@@ -1,12 +1,10 @@
-package com.rmc.token.config;
+package com.token.config;
 
 
-import com.rmc.token.interfaces.ConfigInterface;
+import com.token.interfaces.ConfigInterface;
 
-import java.io.File;
 import java.io.InputStream;
 import java.util.Properties;
-import java.util.ResourceBundle;
 
 public class Config implements ConfigInterface {
     static String host;

@@ -2,13 +2,13 @@ plugins {
     id 'java'
 }
 
-group 'com.rmc.token'
+group 'com.token'
 version '1.3'
 
 //variables
 def jarName = rootProject.name +'-'+ version
 def projectDir = rootProject.projectDir
-def jarDeployTarget = 's3://rmc-static-files/repo/com/rmc/token/'
+def jarDeployTarget = 's3:YOUR S3 BUCKET'
 
 
 def path = ""

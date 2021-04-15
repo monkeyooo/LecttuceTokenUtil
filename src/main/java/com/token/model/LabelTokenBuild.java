@@ -1,7 +1,7 @@
-package com.rmc.token.model;
+package com.token.model;
 
 
-import com.rmc.token.interfaces.LabelTokenBuilder;
+import com.token.interfaces.LabelTokenBuilder;
 
 public class LabelTokenBuild extends TokenModel implements LabelTokenBuilder {
 
@@ -9,14 +9,6 @@ public class LabelTokenBuild extends TokenModel implements LabelTokenBuilder {
         this.labelId = labelId;
         this.labelName = labelName;
         this.labelEmail = labelEmail;
-    }
-
-    public String getMusicBoxData() {
-        return musicBoxData;
-    }
-
-    public void setMusicBoxData(String musicBoxData) {
-        this.musicBoxData = musicBoxData;
     }
 
     public String getLabelName() {
@@ -41,21 +33,5 @@ public class LabelTokenBuild extends TokenModel implements LabelTokenBuilder {
     @Override
     public void setLabelEmail(String labelEmail) {
         this.labelEmail = labelEmail;
-    }
-
-    public String getAnalysisData() {
-        return analysisData;
-    }
-
-    public void setAnalysisData(String analysisData) {
-        this.analysisData = analysisData;
-    }
-
-    public String getAlbumToken() {
-        return albumToken;
-    }
-
-    public void setAlbumToken(String albumToken) {
-        this.albumToken = albumToken;
     }
 }

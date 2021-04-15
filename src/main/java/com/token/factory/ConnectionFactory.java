@@ -1,8 +1,8 @@
-package com.rmc.token.factory;
+package com.token.factory;
 
 
-import com.rmc.token.config.Config;
-import com.rmc.token.interfaces.ConfigInterface;
+import com.token.config.Config;
+import com.token.interfaces.ConfigInterface;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.RedisURI;
 import io.lettuce.core.api.StatefulRedisConnection;
@@ -10,9 +10,9 @@ import io.lettuce.core.api.StatefulRedisConnection;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 
-public class RmcConnectionFactory {
+public class ConnectionFactory {
 
-    static Config config = new Config();
+    static ConfigInterface config;
 
     private static class SingletonClient {
         public static RedisClient redisClient;
@@ -52,6 +52,12 @@ public class RmcConnectionFactory {
 
     public static void shutdownConnection() {
         getSingletonConnection().close();
+    }
+
+    public void setConfig(ConfigInterface config) {
+//        this.config = config;
+        this.config = new Config();
+
     }
 
 }

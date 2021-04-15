@@ -1,10 +1,11 @@
-package com.rmc.token.service;
+package com.token.service;
 
 import com.google.gson.Gson;
-import com.rmc.token.factory.LettuceFactory;
-import com.rmc.token.interfaces.LabelToken;
-import com.rmc.token.interfaces.LabelTokenBuilder;
-import com.rmc.token.model.LettuceTokenImpl;
+import com.token.factory.LettuceFactory;
+import com.token.interfaces.LabelToken;
+import com.token.interfaces.LabelTokenBuilder;
+import com.token.model.LettuceTokenImpl;
+import com.token.constant.Constant;
 import io.lettuce.core.api.async.RedisAsyncCommands;
 
 
@@ -13,8 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
-
-import static com.rmc.token.constant.Constant.LABEL_TOKEN_PREFIX;
 
 
 public class LabelTokenService {
@@ -28,7 +27,7 @@ public class LabelTokenService {
     public static LabelToken getLabelToken(String token) {
         if (redisCommand == null) redisCommand = LettuceFactory.getRedisCmd();
         try {
-            String tokenData = redisCommand.get(LABEL_TOKEN_PREFIX + token).get();
+            String tokenData = redisCommand.get(Constant.LABEL_TOKEN_PREFIX + token).get();
             if (tokenData == null) return new LettuceTokenImpl();
             return gson.fromJson(tokenData, LettuceTokenImpl.class).setRequire(token, gson, redisCommand);
         } catch (InterruptedException | ExecutionException e) {
@@ -46,7 +45,7 @@ public class LabelTokenService {
         if (redisCommand == null) redisCommand = LettuceFactory.getRedisCmd();
         List<String> labelTokenList = null;
         try {
-            labelTokenList = redisCommand.keys(LABEL_TOKEN_PREFIX + "*").get();
+            labelTokenList = redisCommand.keys(Constant.LABEL_TOKEN_PREFIX + "*").get();
         } catch (InterruptedException | ExecutionException e) {
             System.out.println("Exception 46");
         }
@@ -83,8 +82,8 @@ public class LabelTokenService {
         } catch (Exception e) {
             return false;
         }
-        redisCommand.set(LABEL_TOKEN_PREFIX + token, data);
-        redisCommand.expire(LABEL_TOKEN_PREFIX + token, 7200 * 4);
+        redisCommand.set(Constant.LABEL_TOKEN_PREFIX + token, data);
+        redisCommand.expire(Constant.LABEL_TOKEN_PREFIX + token, 7200 * 4);
         return true;
     }
 }

@@ -1,13 +1,12 @@
-package com.rmc.token.model;
+package com.token.model;
 
 import com.google.gson.Gson;
-import com.rmc.token.interfaces.InnerUserTokenBuilder;
+import com.token.interfaces.InnerUserTokenBuilder;
 import io.lettuce.core.api.async.RedisAsyncCommands;
 
 public class InnerUserTokenBuild implements InnerUserTokenBuilder {
     int userId;
     String userName;
-    int albumId;
     protected transient String token;
     protected transient Gson gson;
     transient final int lifeCycle = 60 * 60 * 2; // second to hours, 2 hours
@@ -20,10 +19,5 @@ public class InnerUserTokenBuild implements InnerUserTokenBuilder {
     @Override
     public void setUserName(String userName) {
         this.userName = userName;
-    }
-
-    @Override
-    public void setAlbumId(int albumId) {
-        this.albumId = albumId;
     }
 }
