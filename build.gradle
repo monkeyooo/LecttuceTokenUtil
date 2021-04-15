@@ -1,0 +1,52 @@
+plugins {
+    id 'java'
+}
+
+group 'com.rmc.token'
+version '1.3'
+
+//variables
+def jarName = rootProject.name +'-'+ version
+def projectDir = rootProject.projectDir
+def jarDeployTarget = 's3://rmc-static-files/repo/com/rmc/token/'
+
+
+def path = ""
+jar {
+    from {
+        // load the require jar while building jar
+        configurations.runtimeClasspath.filter { it.exists() }.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+
+
+jar.shouldRunAfter(clean)
+task uploadJarToS3Bucket(dependsOn: [clean, jar]) {
+    group("build")
+    path = "$projectDir/build/libs/${jarName}.jar"
+    //Do last otherwise can't find dir
+    doLast {
+        exec {
+            commandLine 'aws', 's3', 'mv' , "${path}", "${jarDeployTarget}", '--acl', 'public-read'
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+processResources {
+    // exclude the property.properties file
+    sourceSets { main { resources { exclude '**/*.properties' } } }
+}
+
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    // Gson for JSON
+    implementation 'com.google.code.gson:gson:2.8.6'
+    //Redis framework
+    compile 'io.lettuce:lettuce-core:6.0.3.RELEASE'
+}
