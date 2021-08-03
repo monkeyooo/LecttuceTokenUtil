@@ -22,6 +22,7 @@ jar {
 
 
 jar.shouldRunAfter(clean)
+// this script is for upload jar to s3 bucket
 task uploadJarToS3Bucket(dependsOn: [clean, jar]) {
     group("build")
     path = "$projectDir/build/libs/${jarName}.jar"

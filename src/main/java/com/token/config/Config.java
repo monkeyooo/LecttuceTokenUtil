@@ -12,9 +12,9 @@ public class Config implements ConfigInterface {
     static int port;
     public Config() {
         if (host == null) {
-            if (System.getProperty("RMC_REDIS_HOST") != null) {
-                host = System.getProperty("RMC_REDIS_HOST");
-                port = Integer.parseInt(System.getProperty("RMC_REDIS_PORT", "6379"));
+            if (System.getProperty("MY_REDIS_HOST") != null) {
+                host = System.getProperty("MY_REDIS_HOST");
+                port = Integer.parseInt(System.getProperty("MY_REDIS_HOST", "6379"));
             } else {
                 try {
                     InputStream inputStream = getClass().getResourceAsStream("/property.properties");
@@ -33,11 +33,7 @@ public class Config implements ConfigInterface {
                     host = "localhost";
                     port = 6379;
                 }
-                System.setProperty("RMC_REDIS_HOST", host);
-                System.setProperty("RMC_REDIS_PORT", String.valueOf(port));
             }
-            System.out.println("Redis Host : " + host);
-            System.out.println("Redis Port : " + port);
         }
     }
     @Override

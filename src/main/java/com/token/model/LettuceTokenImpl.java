@@ -1,12 +1,12 @@
 package com.token.model;
 
 import com.google.gson.Gson;
-import com.token.interfaces.LabelToken;
+import com.token.interfaces.UserToken;
 import com.token.constant.Constant;
 import io.lettuce.core.api.async.RedisAsyncCommands;
 
 
-public class LettuceTokenImpl extends TokenModel implements LabelToken {
+public class LettuceTokenImpl extends TokenModel implements UserToken {
 
     protected transient String token;
     protected transient Gson gson;
@@ -15,46 +15,46 @@ public class LettuceTokenImpl extends TokenModel implements LabelToken {
 
 
     public LettuceTokenImpl() {
-        this.labelId = 0;
+        this.userId = 0;
     }
 
     @Override
-    public int getLabelId() {
-        return labelId;
+    public int getId() {
+        return userId;
     }
 
     @Override
-    public LabelToken setYourData(String data) {
+    public UserToken setYourData(String data) {
         return this;
     }
 
     @Override
-    public String getLabelName() {
-        return labelName;
+    public String getUserName() {
+        return userName;
     }
 
     @Override
-    public String getLabelEmail() {
-        return labelEmail;
+    public String getEmail() {
+        return email;
     }
 
     @Override
     public boolean save() {
-        if (redisCommand == null || this.labelId == 0 || gson == null)
+        if (redisCommand == null || this.userId == 0 || gson == null)
             return false;
-        redisCommand.set(Constant.LABEL_TOKEN_PREFIX + token, gson.toJson(this));
+        redisCommand.set(Constant.USER_TOKEN_PREFIX + token, gson.toJson(this));
         return true;
     }
 
     @Override
     public boolean extend() {
-        if (redisCommand == null || this.labelId == 0 || gson == null)
+        if (redisCommand == null || this.userId == 0 || gson == null)
             return false;
-        redisCommand.expire(Constant.LABEL_TOKEN_PREFIX + token, lifeCycle);
+        redisCommand.expire(Constant.USER_TOKEN_PREFIX + token, lifeCycle);
         return true;
     }
 
-    public LabelToken setRequire(String token, Gson gson, RedisAsyncCommands<String, String> redisCommand) {
+    public UserToken setRequire(String token, Gson gson, RedisAsyncCommands<String, String> redisCommand) {
         this.token = token;
         this.gson = gson;
         this.redisCommand = redisCommand;
